@@ -1,0 +1,17 @@
+# Standalone Razorpay simulator.
+#
+#   docker-compose up -d --build        # http://localhost:4010
+#
+# To let the ERP API container reach it, put both on one network and use
+# http://razorpay-simulator:4010 as the Razorpay base URL; point RZP_SIM_WEBHOOK_URL at the ERP's
+# webhook endpoint (host.docker.internal:<port> when the API runs on the host).
+
+services:
+  razorpay-simulator:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "${RZP_SIM_PORT:-4010}:4010"
